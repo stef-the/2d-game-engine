@@ -1,0 +1,4 @@
+
+<div id="content">
+    <slot></slot>
+</div>
