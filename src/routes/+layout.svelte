@@ -6,6 +6,7 @@
 <style>
     :global(body) {
         overflow: hidden;
+        font-family: "Consolas", sans-serif;
     }
     
     #content {
