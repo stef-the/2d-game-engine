@@ -7,6 +7,7 @@
     x: 0,
     y: 0,
   };
+  let playerSpeed = 1; // Set player speed
 
   /* 
     Set game variables
@@ -39,16 +40,19 @@
     Handle interactions with the user
   */
   let keysDown = []; // Store and process value for keys pressed
+  let keysDownStr = ""; // Store and process value for keys pressed as string
   let buttonsOver = []; // Store and process value for buttons pressed
 
   // Handle keys and buttons pressed
   function keyDownHandler(e) {
     if (!keysDown.includes(e)) {
-      keysDown.push(e);
+      keysDown.push(e.toLowerCase());
+      keysDownStr = keysDown.join(",");
     }
   }
   function keyUpHandler(e) {
-    keysDown.splice(keysDown.indexOf(e), 1);
+    keysDown.splice(keysDown.indexOf(e.toLowerCase()), 1);
+    keysDownStr = keysDown.join(",");
   }
   function mouseOverBtn(e) {
     if (!buttonsOver.includes(e.target.id)) {
@@ -64,24 +68,72 @@
     lastTickDifference = new Date().getTime() - lastTick; // Calculate last tick difference
     lastTick = new Date().getTime(); // Update last tick time
     lastTickList.push(lastTickDifference); // Add last tick difference to list
-    if (totalTicks > 10) {
+    if (totalTicks > 20) {
       lastTickList.shift(); // Remove first item from list
     }
     totalTicks++; // Increment total ticks
-    avgTickRate = Math.round(lastTickList.reduce((a, b) => a + b, 0) / lastTickList.length); // Calculate average tick rate
+    avgTickRate = Math.round(
+      lastTickList.reduce((a, b) => a + b, 0) / lastTickList.length
+    ); // Calculate average tick rate
     if (notFrozen) {
       // Handle player movement
-      if (keysDown.includes(controls.moveUp)) {
-        pos.y -= 1;
+      if ( // Up and not Down keys pressed
+        keysDown.includes(controls.moveUp) &
+        !keysDown.includes(controls.moveDown)
+      ) {
+        if ( // Left and not Right keys pressed
+          keysDown.includes(controls.moveLeft) &
+          !keysDown.includes(controls.moveRight)
+        ) {
+          pos.x -= playerSpeed * 0.71;
+          pos.y -= playerSpeed * 0.71;
+        } else if ( // Right and not Left keys pressed
+          keysDown.includes(controls.moveRight) &
+          !keysDown.includes(controls.moveLeft)
+        ) {
+          pos.x += playerSpeed * 0.71;
+          pos.y -= playerSpeed * 0.71;
+        } else { // Only Up key pressed
+          pos.y -= playerSpeed;
+        }
+      } else if ( // Down and not Up keys pressed
+        keysDown.includes(controls.moveDown) &
+        !keysDown.includes(controls.moveUp)
+      ) {
+        if ( // Left and not Right keys pressed
+          keysDown.includes(controls.moveLeft) &
+          !keysDown.includes(controls.moveRight)
+        ) {
+          pos.x -= playerSpeed * 0.71;
+          pos.y += playerSpeed * 0.71;
+        } else if ( // Right and not Left keys pressed
+          keysDown.includes(controls.moveRight) &
+          !keysDown.includes(controls.moveLeft)
+        ) {
+          pos.x += playerSpeed * 0.71;
+          pos.y += playerSpeed * 0.71;
+        } else { // Only Down key pressed
+          pos.y += playerSpeed;
+        }
+      } else if ( // Left and not Right keys pressed
+        keysDown.includes(controls.moveLeft) &
+        !keysDown.includes(controls.moveRight)
+      ) {
+        pos.x -= playerSpeed;
+      } else if ( // Right and not Left keys pressed
+        keysDown.includes(controls.moveRight) &
+        !keysDown.includes(controls.moveLeft)
+      ) {
+        pos.x += playerSpeed;
       }
-      if (keysDown.includes(controls.moveDown)) {
-        pos.y += 1;
+
+      if (keysDown.includes(controls.sprint)) {
+        playerSpeed = 2;
+      } else {
+        playerSpeed = 1;
       }
-      if (keysDown.includes(controls.moveLeft)) {
-        pos.x -= 1;
-      }
-      if (keysDown.includes(controls.moveRight)) {
-        pos.x += 1;
+      if (keysDown.includes(controls.freeze)) {
+        notFrozen = notFrozen ? false : true;
       }
     }
   }
@@ -239,9 +291,10 @@
 <!-- Render debug info -->
 <div id="debug">
   <span>coordinates (x, y): <span>{pos.x}, {pos.y}</span></span><br />
-  <span>last tick: {lastTickDifference}ms</span><br />
-  <span>total ticks: {totalTicks}</span><br />
-  <span>average tick rate: {avgTickRate}ms</span><br />
+  <span>last tick: <span>{lastTickDifference}ms</span></span><br />
+  <span>total ticks: <span>{totalTicks}</span></span><br />
+  <span>average tick rate: <span>{avgTickRate}ms</span></span><br />
+  <span>keys down: <span>{keysDownStr}</span></span><br />
 </div>
 
 <style>
@@ -250,9 +303,12 @@
     top: 0;
     left: 0;
     background-color: darkgrey;
-    color: darkblue;
+    color: #003;
     opacity: calc(var(--debugMenuOpacity) * 1%);
     font-size: small;
+  }
+  #debug span span {
+    color: darkred;
   }
 
   #world {
