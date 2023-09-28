@@ -3,6 +3,7 @@ export const controls = {
   moveDown: 's',
   moveLeft: 'a',
   moveRight: 'd',
+  debugMenu: 'm',
 };
 
 // Colour palette
