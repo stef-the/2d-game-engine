@@ -1,9 +1,11 @@
 export const controls = {
-  moveUp: 'w',
-  moveDown: 's',
-  moveLeft: 'a',
-  moveRight: 'd',
-  debugMenu: 'm',
+  moveUp: "w",
+  moveDown: "s",
+  moveLeft: "a",
+  moveRight: "d",
+  sprint: "shift",
+  debugMenu: "m",
+  freeze: "f",
 };
 
 // Colour palette
