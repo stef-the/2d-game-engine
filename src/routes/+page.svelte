@@ -24,7 +24,7 @@
 
   const tickrate = 10; // Set update tickrate (ms) -> time in between updates
 
-  let notFrozen = true; // Set freeze state
+  let frozen = false; // Set freeze state
 
   function toggleDebugMenu(e) {
     if (e == controls.debugMenu) {
@@ -75,7 +75,7 @@
     avgTickRate = Math.round(
       lastTickList.reduce((a, b) => a + b, 0) / lastTickList.length
     ); // Calculate average tick rate
-    if (notFrozen) {
+    if (!frozen) {
       // Handle player movement
       if ( // Up and not Down keys pressed
         keysDown.includes(controls.moveUp) &
@@ -132,9 +132,6 @@
       } else {
         playerSpeed = 1;
       }
-      if (keysDown.includes(controls.freeze)) {
-        notFrozen = notFrozen ? false : true;
-      }
     }
   }
 
@@ -176,6 +173,9 @@
 
     // Handles event for single-time actions
     toggleDebugMenu(e.key);
+    if (e.key == controls.freeze) {
+      frozen = !frozen;
+    }
   }}
   on:keyup={(e) => {
     // Handles on key up event
@@ -295,6 +295,7 @@
   <span>total ticks: <span>{totalTicks}</span></span><br />
   <span>average tick rate: <span>{avgTickRate}ms</span></span><br />
   <span>keys down: <span>{keysDownStr}</span></span><br />
+  <span>frozen: <span>{frozen}</span></span>
 </div>
 
 <style>
