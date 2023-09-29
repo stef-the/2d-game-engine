@@ -7,12 +7,10 @@ export const controls = {}
 ```
 
 The default controls are as follows:
-| Use | Key |
-|-----|-----|
-| Movement |
-|-----|-----|
-| Forwards | w |
-| Backwards | s |
-| Left | a |
-| Right | d |
-|-----|-----|
+| **Purpose** | **Keybind** |
+| Move Forwards | `w` |
+| Move Backwards | `s` |
+| Move Left | `a` |
+| Move Right | `d` |
+| Open/Close Debug Menu | `m` |
+| Toggle Freeze State | `f` |
