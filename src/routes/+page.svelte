@@ -48,7 +48,7 @@
       keysDownStr = keysDown.join(",");
     }
   }
-  function keyUpHandler(e) {
+  function keyUpHandler(e=keysDown[0]) {
     keysDown.splice(keysDown.indexOf(e.toLowerCase()), 1);
     keysDownStr = keysDown.join(",");
   }
@@ -211,24 +211,7 @@
     }
   }}
   on:mouseup={() => {
-    for (const button of buttonsOver) {
-      switch (button) {
-        case "upBtn":
-          keyUpHandler(controls.moveUp);
-          break;
-        case "downBtn":
-          keyUpHandler(controls.moveDown);
-          break;
-        case "leftBtn":
-          keyUpHandler(controls.moveLeft);
-          break;
-        case "rightBtn":
-          keyUpHandler(controls.moveRight);
-          break;
-        case "centerBtn":
-          break;
-      }
-    }
+    keyUpHandler();
   }}
   use:cssVariables={{ screenratio, debugMenuOpacity }}
 />
@@ -236,8 +219,8 @@
 <!-- Render world first -->
 <div
   id="world"
-  style="top: calc({posy.toFixed(2) * (screenratio / 10)}px + 50vh); left: calc({posx.toFixed(2) *
-    (screenratio / -10)}px + 50vw);"
+  style="top: calc({posy.toFixed(2) * (screenratio / 20)}px + 50vh); left: calc({posx.toFixed(2) *
+    (screenratio / -20)}px + 50vw);"
 >
   {#each world as world_column}
     {#each world_column as world_element}
