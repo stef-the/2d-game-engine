@@ -19,6 +19,7 @@ The default controls are as follows:
 | Move Backwards | `s` |
 | Move Left | `a` |
 | Move Right | `d` |
+| Sprint | `shift` |
 | Open/Close Debug Menu | `m` |
 | Toggle Freeze State | `f` |
 

@@ -85,15 +85,15 @@
           keysDown.includes(controls.moveLeft) &
           !keysDown.includes(controls.moveRight)
         ) {
-          posx -= playerSpeed * 0.71;
-          posy -= playerSpeed * 0.71;
+          posx -= playerSpeed * 0.7;
+          posy -= playerSpeed * 0.7;
         } else if (
           // Right and not Left keys pressed
           keysDown.includes(controls.moveRight) &
           !keysDown.includes(controls.moveLeft)
         ) {
-          posx += playerSpeed * 0.71;
-          posy -= playerSpeed * 0.71;
+          posx += playerSpeed * 0.7;
+          posy -= playerSpeed * 0.7;
         } else {
           // Only Up key pressed
           posy -= playerSpeed;
@@ -108,15 +108,15 @@
           keysDown.includes(controls.moveLeft) &
           !keysDown.includes(controls.moveRight)
         ) {
-          posx -= playerSpeed * 0.71;
-          posy += playerSpeed * 0.71;
+          posx -= playerSpeed * 0.7;
+          posy += playerSpeed * 0.7;
         } else if (
           // Right and not Left keys pressed
           keysDown.includes(controls.moveRight) &
           !keysDown.includes(controls.moveLeft)
         ) {
-          posx += playerSpeed * 0.71;
-          posy += playerSpeed * 0.71;
+          posx += playerSpeed * 0.7;
+          posy += playerSpeed * 0.7;
         } else {
           // Only Down key pressed
           posy += playerSpeed;
@@ -236,7 +236,7 @@
 <!-- Render world first -->
 <div
   id="world"
-  style="top: calc({posy * (screenratio / -10)}px + 50vh); left: calc({posx *
+  style="top: calc({posy.toFixed(2) * (screenratio / -10)}px + 50vh); left: calc({posx.toFixed(2) *
     (screenratio / -10)}px + 50vw);"
 >
   {#each world as world_column}
@@ -298,7 +298,7 @@
 
 <!-- Render debug info -->
 <div id="debug">
-  <span>coordinates (x, y): <span>{posx}, {posy}</span></span><br />
+  <span>coordinates (x, y): <span>{posx.toFixed(2)}, {posy.toFixed(2)}</span></span><br />
   <span>last tick: <span>{lastTickDifference}ms</span></span><br />
   <span>total ticks: <span>{totalTicks}</span></span><br />
   <span>average tick rate: <span>{avgTickRate}ms</span></span><br />
