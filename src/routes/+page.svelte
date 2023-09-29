@@ -3,10 +3,8 @@
   import { onMount } from "svelte";
 
   // Set player position to 0,0
-  let pos = {
-    x: 0,
-    y: 0,
-  };
+  let posy = 0;
+  let posx = 0;
   let playerSpeed = 1; // Set player speed
 
   /* 
@@ -74,57 +72,67 @@
     totalTicks++; // Increment total ticks
     avgTickRate = Math.round(
       lastTickList.reduce((a, b) => a + b, 0) / lastTickList.length
-    ); // Calculate average tick rate
+    ); // Calculate average tick rate, set avgTickRate to average tick rate
     if (!frozen) {
       // Handle player movement
-      if ( // Up and not Down keys pressed
+      if (
+        // Up and not Down keys pressed
         keysDown.includes(controls.moveUp) &
         !keysDown.includes(controls.moveDown)
       ) {
-        if ( // Left and not Right keys pressed
+        if (
+          // Left and not Right keys pressed
           keysDown.includes(controls.moveLeft) &
           !keysDown.includes(controls.moveRight)
         ) {
-          pos.x -= playerSpeed * 0.71;
-          pos.y -= playerSpeed * 0.71;
-        } else if ( // Right and not Left keys pressed
+          posx -= playerSpeed * 0.71;
+          posy -= playerSpeed * 0.71;
+        } else if (
+          // Right and not Left keys pressed
           keysDown.includes(controls.moveRight) &
           !keysDown.includes(controls.moveLeft)
         ) {
-          pos.x += playerSpeed * 0.71;
-          pos.y -= playerSpeed * 0.71;
-        } else { // Only Up key pressed
-          pos.y -= playerSpeed;
+          posx += playerSpeed * 0.71;
+          posy -= playerSpeed * 0.71;
+        } else {
+          // Only Up key pressed
+          posy -= playerSpeed;
         }
-      } else if ( // Down and not Up keys pressed
+      } else if (
+        // Down and not Up keys pressed
         keysDown.includes(controls.moveDown) &
         !keysDown.includes(controls.moveUp)
       ) {
-        if ( // Left and not Right keys pressed
+        if (
+          // Left and not Right keys pressed
           keysDown.includes(controls.moveLeft) &
           !keysDown.includes(controls.moveRight)
         ) {
-          pos.x -= playerSpeed * 0.71;
-          pos.y += playerSpeed * 0.71;
-        } else if ( // Right and not Left keys pressed
+          posx -= playerSpeed * 0.71;
+          posy += playerSpeed * 0.71;
+        } else if (
+          // Right and not Left keys pressed
           keysDown.includes(controls.moveRight) &
           !keysDown.includes(controls.moveLeft)
         ) {
-          pos.x += playerSpeed * 0.71;
-          pos.y += playerSpeed * 0.71;
-        } else { // Only Down key pressed
-          pos.y += playerSpeed;
+          posx += playerSpeed * 0.71;
+          posy += playerSpeed * 0.71;
+        } else {
+          // Only Down key pressed
+          posy += playerSpeed;
         }
-      } else if ( // Left and not Right keys pressed
+      } else if (
+        // Left and not Right keys pressed
         keysDown.includes(controls.moveLeft) &
         !keysDown.includes(controls.moveRight)
       ) {
-        pos.x -= playerSpeed;
-      } else if ( // Right and not Left keys pressed
+        posx -= playerSpeed;
+      } else if (
+        // Right and not Left keys pressed
         keysDown.includes(controls.moveRight) &
         !keysDown.includes(controls.moveLeft)
       ) {
-        pos.x += playerSpeed;
+        posx += playerSpeed;
       }
 
       if (keysDown.includes(controls.sprint)) {
@@ -228,8 +236,8 @@
 <!-- Render world first -->
 <div
   id="world"
-  style="top: {pos.y * (screenratio / -20)}px; left: {pos.x *
-    (screenratio / -20)}px;"
+  style="top: calc({posy * (screenratio / -10)}px + 50vh); left: calc({posx *
+    (screenratio / -10)}px + 50vw);"
 >
   {#each world as world_column}
     {#each world_column as world_element}
@@ -290,7 +298,7 @@
 
 <!-- Render debug info -->
 <div id="debug">
-  <span>coordinates (x, y): <span>{pos.x}, {pos.y}</span></span><br />
+  <span>coordinates (x, y): <span>{posx}, {posy}</span></span><br />
   <span>last tick: <span>{lastTickDifference}ms</span></span><br />
   <span>total ticks: <span>{totalTicks}</span></span><br />
   <span>average tick rate: <span>{avgTickRate}ms</span></span><br />
@@ -312,8 +320,21 @@
     color: darkred;
   }
 
+  #player {
+    position:fixed;
+    top: calc(50% - 25px / 2);
+    left: calc(50% - 25px / 2);
+    border: 2px red solid;
+    border-radius: 100%;
+    background-color: black;
+    height: 25px;
+    width: 25px;
+  }
+
   #world {
     position: fixed;
+    top: 0;
+    left: 0;
   }
   .block {
     position: absolute;
