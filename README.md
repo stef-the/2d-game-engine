@@ -1,13 +1,15 @@
 # Controls
 
-You can set custom controls in `/src/lib/data.js` inside the controls variable.
+You can set custom controls in `/src/lib/data.js` inside the controls variable (example below).
 
 ```js
-export const controls = {}
+export const controls = { moveUp: "w" }
 ```
 
 The default controls are as follows:
-| **Purpose** | **Keybind** |
+
+| **Action** | **Key** |
+|-----|-----|
 | Move Forwards | `w` |
 | Move Backwards | `s` |
 | Move Left | `a` |
