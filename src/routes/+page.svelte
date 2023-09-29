@@ -45,7 +45,7 @@
 
   // Handle keys and buttons pressed
   function keyDownHandler(e) {
-    if (!keysDown.includes(e)) {
+    if (!keysDown.includes(e.toLowerCase())) {
       keysDown.push(e.toLowerCase());
       keysDownStr = keysDown.join(",");
     }
