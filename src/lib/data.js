@@ -57,4 +57,5 @@ export let world = [
   ],
   ["cyan", "magenta", "yellow"],
   ["gray", "purple", "pink"],
+  [c.g]
 ];
